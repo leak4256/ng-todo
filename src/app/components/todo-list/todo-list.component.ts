@@ -16,7 +16,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   private _subscription = new Subscription();
 
   constructor(private _todoService: TodoService) { }
-  
+
   ngOnInit(): void {
     // ngOnDestroyבאובייקט אחד לו נעשה אןסבסקיפטשין ב_subscriptionכדי שלא נצטרך לעשות אןסבסקריב על הרבה אנחנו שמים את כל ה
     this._subscription.add(
@@ -25,8 +25,19 @@ export class TodoListComponent implements OnInit, OnDestroy {
       })
     );
   }
+
   ngOnDestroy(): void {
-     this._subscription.unsubscribe();
+    this._subscription.unsubscribe();
   }
+
+  onTodoClick(todo: IToDo, index: number) {
+    this._todoService.setSelectedTodo(todo);
+    this.todos.forEach(t => {
+      if (t.selected)
+        t.selected = false
+    })
+    this.todos[index].selected = true;
+  }
+
 
 }
